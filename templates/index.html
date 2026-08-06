@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+
+    <title>Atlas</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', path='/styles.css') }}"
+    >
+
+    <script
+        src="{{ url_for('static', path='/app.js') }}"
+        defer
+    ></script>
+</head>
+
+<body>
+    <header class="header">
+        <strong>Atlas</strong>
+        <span>Corporate knowledge</span>
+    </header>
+
+    <main class="container">
+        <section class="introduction">
+            <h1>Ask your company</h1>
+            <p>
+                Receive an answer supported by approved company knowledge.
+            </p>
+        </section>
+
+        <form id="question-form" class="question-form">
+            <label for="question">Your question</label>
+
+            <div class="question-row">
+                <input
+                    id="question"
+                    name="question"
+                    type="text"
+                    value="How long can customers return hardware?"
+                    required
+                >
+
+                <button type="submit">Ask</button>
+            </div>
+        </form>
+
+        <section id="answer-card" class="answer-card" hidden>
+            <p class="answer-label">Atlas answer</p>
+
+            <h2 id="answer-title"></h2>
+            <p id="answer-text"></p>
+
+            <div class="sources">
+                <h3>Supporting sources</h3>
+                <ul id="source-list"></ul>
+            </div>
+        </section>
+
+        <p id="error-message" class="error" hidden></p>
+    </main>
+</body>
+</html>
