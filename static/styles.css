@@ -159,3 +159,7 @@ body {
         width: 100%;
     }
 }
+
+#answer-text {
+    white-space: pre-wrap;
+}

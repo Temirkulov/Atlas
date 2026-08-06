@@ -10,6 +10,14 @@ const submitButton = form.querySelector("button");
 form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
+    const question = questionInput.value.trim();
+
+    if (!question) {
+        errorMessage.textContent = "Please enter a question.";
+        errorMessage.hidden = false;
+        return;
+    }
+
     answerCard.hidden = true;
     errorMessage.hidden = true;
     submitButton.disabled = true;
@@ -22,30 +30,49 @@ form.addEventListener("submit", async (event) => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                question: questionInput.value,
+                question: question,
             }),
         });
 
         if (!response.ok) {
-            throw new Error("Atlas could not answer the question.");
+            throw new Error(
+                "Atlas could not answer the question."
+            );
         }
 
         const result = await response.json();
 
-        answerTitle.textContent = result.title;
+        answerTitle.textContent =
+            result.article?.title ?? "Atlas answer";
+
         answerText.textContent = result.answer;
 
         sourceList.replaceChildren();
 
         for (const source of result.sources) {
             const item = document.createElement("li");
-            item.textContent = source;
+
+            const citation = source.citation
+                ? `[${source.citation}] `
+                : "";
+
+            const type = source.type
+                ? ` — ${source.type}`
+                : "";
+
+            item.textContent =
+                `${citation}${source.title}${type}`;
+
             sourceList.appendChild(item);
         }
 
         answerCard.hidden = false;
     } catch (error) {
-        errorMessage.textContent = error.message;
+        errorMessage.textContent =
+            error instanceof Error
+                ? error.message
+                : "Something went wrong.";
+
         errorMessage.hidden = false;
     } finally {
         submitButton.disabled = false;
